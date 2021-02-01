@@ -1,8 +1,8 @@
 # Pokemon
 ## Overview
 
-Pokemon is a simple app that displays a List of Pokemon with image and name, when the
-user selects a Pokémon, the app shows the detail with the Pokémon name, images,
+Pokemon is a simple app that displays a list of Pokemon with image and name, when the
+user selects a Pokemon, the app shows the detail with the Pokemon name, images,
 stats and type.
 
 It is possibile to search specific Pokemon by the search bar and it's possible to work even offline by saving favourites Pokemon on the device in "Favourite" section.
