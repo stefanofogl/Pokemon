@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20C69" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="PokemonDetailsEntity" representedClassName="PokemonDetailsEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="attack" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="defense" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="firstImage" optional="YES" attributeType="Binary"/>
+        <attribute name="hp" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="secondImage" optional="YES" attributeType="Binary"/>
+        <attribute name="specialAttack" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="thirdImage" optional="YES" attributeType="Binary"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <attribute name="weight" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="pokemon" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="PokemonEntity" inverseName="details" inverseEntity="PokemonEntity"/>
+    </entity>
+    <entity name="PokemonEntity" representedClassName="PokemonEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="detailUrl" optional="YES" attributeType="String"/>
+        <attribute name="fullName" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="mainImage" optional="YES" attributeType="Binary"/>
+        <relationship name="details" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="PokemonDetailsEntity" inverseName="pokemon" inverseEntity="PokemonDetailsEntity"/>
+    </entity>
+    <elements>
+        <element name="PokemonEntity" positionX="331.954345703125" positionY="7.087554931640625" width="128" height="118"/>
+        <element name="PokemonDetailsEntity" positionX="-54" positionY="-9" width="128" height="193"/>
+    </elements>
+</model>
