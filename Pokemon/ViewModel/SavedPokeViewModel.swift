@@ -17,6 +17,7 @@ class SavedPokeViewModel {
     }
 
     private let coreData = CoreDataController.shared
+
     var state = Observable<State>()
     var pokemonList = [Pokemon]()
     var detailList = [PokemonDetails]()

@@ -9,6 +9,7 @@ import UIKit
 
 class TabBarController: UITabBarController {
 
+//    Configure tab bar
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .mainPink()

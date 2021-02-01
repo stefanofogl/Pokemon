@@ -9,8 +9,6 @@ import UIKit
 
 class InfoView: UIView {
     
-    // MARK: - Properties
-    
     var pokemonDetails: PokemonDetails?
     {
         didSet {
@@ -60,8 +58,6 @@ class InfoView: UIView {
         let label = UILabel()
         return label
     }()
-
-    // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)

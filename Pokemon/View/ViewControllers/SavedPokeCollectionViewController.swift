@@ -29,6 +29,7 @@ class SavedPokeCollectionViewController: UICollectionViewController {
         viewModel.fetchSavedPokemon()
     }
 
+    //    Observer on the change of state in viewModel
     private func setupObservables() {
         viewModel.state.bind { [weak self] (state) in
             switch state {
@@ -53,7 +54,7 @@ class SavedPokeCollectionViewController: UICollectionViewController {
                 self?.detailList = []
                 DispatchQueue.main.async {
                     ActivityIndicator.shared.hideActivityIndicator()
-                    AlertView.shared.showError(title: "Error", message: "No saved pokemon", view: self)
+                    AlertView.shared.showError(title: "No pokemon saved", message: "Tap on save button on pokemon details", view: self)
                     self?.collectionView.reloadData()
                 }
             case .none:

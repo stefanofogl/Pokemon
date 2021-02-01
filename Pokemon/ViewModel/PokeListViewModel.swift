@@ -16,17 +16,20 @@ class PokeListViewModel {
         case connectionError
     }
 
-    let pokemonLimit = 150
+    let pokemonLimit = 50
+    var pokemonOffset = 0
+
     var state = Observable<State>()
-    var pokemonList = [Pokemon]()
+    var pokemonList: [Pokemon] = []
 
     private let service = Service()
 
+//    check if is available internet connection, if true start to fetch pokemon else show error message
     func checkInternetConnection() {
 
         self.state.value = .loading
         if InternetConnectionManager.isConnectedToNetwork() {
-            fetchAllPokemon(limit: pokemonLimit)
+            fetchPokemon()
             print("Connected")
         } else {
             self.state.value = .connectionError
@@ -34,10 +37,13 @@ class PokeListViewModel {
         }
     }
 
-    func fetchAllPokemon(limit: Int) {
-        service.fetchAllPokemon(limit: limit) { [weak self] success, pokemon in
+//  call the service to fetch pokemon
+    func fetchPokemon() {
+        self.state.value = .loading
+        service.fetchPokemon(limit: pokemonLimit, offset: pokemonOffset) { [weak self] success, pokemon in
             if success {
-                self?.pokemonList = self?.sortPokemon(list: pokemon) ?? []
+                self?.pokemonOffset += self?.pokemonLimit ?? 0
+                self?.pokemonList += self?.sortPokemon(list: pokemon) ?? []
                 self?.state.value = .initial
                 
             } else {
@@ -46,6 +52,7 @@ class PokeListViewModel {
         }
     }
 
+//    sort the array of pokemon based on id
     func sortPokemon(list: [Pokemon]) -> [Pokemon] {
         var sortedList: [Pokemon] = list
         sortedList.sort(by: { (poke1, poke2) -> Bool in

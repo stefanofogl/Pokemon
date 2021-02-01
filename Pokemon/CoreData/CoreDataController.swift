@@ -19,6 +19,7 @@ protocol CoreDataProtocol {
 }
 
 class CoreDataController: CoreDataProtocol {
+    
     static let shared = CoreDataController()
     
     private var context: NSManagedObjectContext

@@ -13,7 +13,7 @@ public struct APIEndpoints {
     private static let baseUrl = "https://pokeapi.co/api/v2/"
     
     // Endpoint to fetch all pokemon
-    static let fetchAllPokemon = baseUrl + "pokemon/?limit="
+    static let fetchAllPokemon = baseUrl + "pokemon/?offset="
     
     // Endpoint to fetch pokemon details
     static let fetchPokemonDetail = baseUrl + "pokemon/"

@@ -16,18 +16,17 @@ protocol ServiceProtocol {
     typealias createPokemonDetailCompletion = (_ success: Bool, _ pokemon: PokemonDetails?) -> Void
     typealias fetchPokemonDetailsCompletion = (_ success: Bool, _ pokemon: PokemonDetails?) -> Void
     
-    func fetchAllPokemon( limit: Int, _ completion: @escaping fetchAllPokemonCompletion)
-    func fetchDetails(url: String, completion: @escaping(fetchPokemonDetailsCompletion))
+    func fetchPokemon( limit: Int, offset: Int, _ completion: @escaping fetchAllPokemonCompletion)
+    func fetchDetails(url: String, completion: @escaping fetchPokemonDetailsCompletion)
     
 }
 
 class Service: ServiceProtocol {
 
-    func fetchAllPokemon( limit: Int, _ completion: @escaping fetchAllPokemonCompletion) {
+    func fetchPokemon(limit: Int, offset: Int, _ completion: @escaping fetchAllPokemonCompletion) {
 
-        var request = URLRequest(url: URL(string: APIEndpoints.fetchAllPokemon + String(limit))!)
+        var request = URLRequest(url: URL(string: APIEndpoints.fetchAllPokemon + "\(offset)" + "&limit=\(limit)")!)
         request.httpMethod = "GET"
-        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 print(String(describing: error))
@@ -36,8 +35,9 @@ class Service: ServiceProtocol {
             }
             do {
                 let res = try JSONDecoder().decode(FetchAllPokemonResponse.self, from: data)
+                guard offset <= res.count else { return }
 
-                self.pokemonFrom(res.results) { success, pokemon in
+                self.pokemonFrom(res.results, offset: offset, limit: limit) { success, pokemon in
                     if success {
                         completion(true, pokemon)
                     } else {
@@ -108,10 +108,12 @@ class Service: ServiceProtocol {
         }.resume()
     }
 
-    private func pokemonFrom(_ object: [PokemonResultsResponse], completion: @escaping(createPokemonCompletion)) {
+    private func pokemonFrom(_ object: [PokemonResultsResponse], offset: Int, limit: Int, completion: @escaping(createPokemonCompletion)) {
+        
+//        create pokemon object from response
         var tmp = [Pokemon]()
-        var imageId = 0
-        var pokeId = 0
+        var imageId = offset
+        var pokeId = offset
         for i in object {
             imageId = imageId + 1
             fetchImage(url: APIEndpoints.fetchImage + "\(imageId).png") { success, image in
@@ -119,7 +121,9 @@ class Service: ServiceProtocol {
                     pokeId = pokeId + 1
                     let pokemon = Pokemon(id: pokeId, image: image, fullName: i.name, detailUrl: i.url)
                     tmp.append(pokemon)
-                    completion(true, tmp)
+                    if pokeId == offset + limit {
+                        completion(true, tmp)
+                    }
                 } else {
                     completion(false, [])
                     return

@@ -37,11 +37,8 @@ class PokeListCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "Bulbasaur"
         return label
     }()
-    
-    // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)

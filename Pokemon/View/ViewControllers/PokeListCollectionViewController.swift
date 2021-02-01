@@ -25,6 +25,7 @@ class PokeListCollectionViewController: UICollectionViewController {
         viewModel.checkInternetConnection()
     }
     
+//    Observer on the change of state in viewModel
     private func setupObservables() {
         viewModel.state.bind { [weak self] (state) in
             switch state {
@@ -39,7 +40,6 @@ class PokeListCollectionViewController: UICollectionViewController {
                     ActivityIndicator.shared.showActivityIndicatory(view: self)
                 }
             case .error:
-                
                 DispatchQueue.main.async {
                     ActivityIndicator.shared.hideActivityIndicator()
                     AlertView.shared.showError(title: "Error", message: "Something went wrong!", view: self)
@@ -147,6 +147,13 @@ extension PokeListCollectionViewController {
         return cell
     }
     
+//    if will display the last cell it's called again fetchPokemon for other 50 elements
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == pokemonList.count - 1 {
+            viewModel.fetchPokemon()
+        }
+    }
+
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let controller = PokemonDetailsViewController()

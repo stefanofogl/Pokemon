@@ -9,8 +9,10 @@ import Foundation
 
 class FetchAllPokemonResponse: Codable {
     private enum CodingKeys: String, CodingKey {
+        case count = "count"
         case results = "results"
     }
+    let count: Int
     let results: [PokemonResultsResponse]
 }
 

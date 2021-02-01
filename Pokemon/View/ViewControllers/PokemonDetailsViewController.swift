@@ -63,25 +63,18 @@ class PokemonDetailsViewController: UIViewController {
         configureViewComponents()
         setConstraints()
         setupObservables()
-        if isSaveMode {
-            viewModel.details = details
-            saveButton.setTitle("Delete", for: .normal)
-            refreshUI()
-        } else {
-            viewModel.fetchDetails(url: pokemon?.detailUrl ?? "")
-        }
+        checkMode()
     }
     
+    //    Observer on the change of state in viewModel
     private func setupObservables() {
         viewModel.state.bind { [weak self] (state) in
             switch state {
             case .initial:
-                
                 DispatchQueue.main.async {
                     ActivityIndicator.shared.hideActivityIndicator()
                     self?.refreshUI()
                 }
-                
             case .loading:
                 DispatchQueue.main.async {
                     ActivityIndicator.shared.showActivityIndicatory(view: self)
@@ -116,6 +109,7 @@ class PokemonDetailsViewController: UIViewController {
         saveButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
     }
 
+//    if is in saved pokemon section button action is to delete else is to save
     @objc func buttonAction() {
         if isSaveMode {
             viewModel.deletePokemon(id: pokemon!.id)
@@ -190,4 +184,13 @@ class PokemonDetailsViewController: UIViewController {
         saveButton.anchor(top: imagesStackView.bottomAnchor, left: stackView.leftAnchor, bottom: nil, right: stackView.rightAnchor, paddingTop: 0, paddingLeft: 12, paddingBottom: 12, paddingRight: 12, width: 0, height: 50)
     }
     
+    private func checkMode() {
+        if isSaveMode {
+            viewModel.details = details
+            saveButton.setTitle("Delete", for: .normal)
+            refreshUI()
+        } else {
+            viewModel.fetchDetails(url: pokemon?.detailUrl ?? "")
+        }
+    }
 }

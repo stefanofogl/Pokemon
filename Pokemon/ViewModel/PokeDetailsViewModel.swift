@@ -26,6 +26,7 @@ class PokeDetailsViewModel {
 
     private let coreData = CoreDataController.shared
 
+//    call the coredata function to delete pokemon
     func deletePokemon(id: Int) {
         coreData.deletePokemon(id: id) { [weak self] success in
             if success {
@@ -35,7 +36,8 @@ class PokeDetailsViewModel {
             }
         }
     }
-
+    
+    //    call the coredata function to save pokemon
     func savePokemon(pokemon: Pokemon) {
         let sortedKeys = details!.stats.sorted(by: { $0.0 < $1.0 })
         coreData.savePokemon(detailUrl: pokemon.detailUrl, fullName: pokemon.fullName, id: pokemon.id, mainImage: pokemon.mainImage!, attack: Int(sortedKeys[0].value)!, defense: Int(sortedKeys[1].value)!, firstImage: (details?.images[0])!, secondImage: (details?.images[1])!, thirdImage: (details?.images[2])!, hp: Int(sortedKeys[2].value)!, specialAttack: Int(sortedKeys[3].value)!, type: details!.type, weight: details!.weight) { [weak self] success in
@@ -48,6 +50,7 @@ class PokeDetailsViewModel {
         }
     }
 
+    //    call the service function to fetch the pokemon details
     func fetchDetails(url: String) {
         self.state.value = .loading
         service.fetchDetails(url: url) { [weak self] success, details in
